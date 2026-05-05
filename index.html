@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnonNews Hub - Live News & Interactive Entertainment</title>
+    <!-- Google AdSense Verification -->
+    <meta name="google-adsense-account" content="ca-pub-9732868041262758">
     <!-- Google AdSense Auto Ads -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9732868041262758" crossorigin="anonymous"></script>
     <script>
@@ -600,9 +602,9 @@
                 <div>
                     <h4 class="font-bold text-white mb-4">Legal</h4>
                     <ul class="space-y-2 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="/privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
                         <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Cookie Policy</a></li>
+                        <li><a href="/privacy.html#cookies" class="hover:text-white transition-colors">Cookie Policy</a></li>
                     </ul>
                 </div>
             </div>
@@ -1586,6 +1588,63 @@
                     url: '#'
                 }
             ];
+        }
+    </script>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" style="display:none;" class="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6">
+        <div class="max-w-5xl mx-auto glass-strong rounded-2xl border border-primary/30 p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center gap-4 shadow-2xl">
+            <div class="flex items-start gap-4 flex-1">
+                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <i class="fas fa-cookie-bite text-primary text-lg"></i>
+                </div>
+                <div>
+                    <p class="text-white font-semibold text-sm mb-1">We use cookies &amp; similar technologies</p>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        AnonNews Hub uses cookies to personalise content and ads, provide social media features, and analyse traffic.
+                        We also share information about your use of our site with our advertising partners, including Google AdSense.
+                        By clicking <strong class="text-white">Accept All</strong>, you consent to our use of cookies.
+                        <a href="/privacy.html" class="text-primary hover:underline ml-1">Privacy Policy</a> &bull;
+                        <a href="/privacy.html#cookies" class="text-primary hover:underline ml-1">Cookie Policy</a>
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3 flex-shrink-0 w-full md:w-auto">
+                <button onclick="rejectCookies()" class="flex-1 md:flex-none px-4 py-2 rounded-lg border border-white/20 text-gray-300 hover:text-white hover:border-white/40 text-sm font-medium transition-all">
+                    Reject Non-Essential
+                </button>
+                <button onclick="acceptCookies()" class="flex-1 md:flex-none px-5 py-2 rounded-lg bg-gradient-to-r from-primary to-secondary text-white text-sm font-bold hover:shadow-lg hover:shadow-primary/30 transition-all transform hover:scale-105">
+                    Accept All
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cookie Consent Logic
+        (function() {
+            const consent = localStorage.getItem('cookie_consent');
+            if (!consent) {
+                setTimeout(function() {
+                    document.getElementById('cookie-banner').style.display = 'block';
+                }, 1500);
+            }
+        })();
+
+        function acceptCookies() {
+            localStorage.setItem('cookie_consent', 'accepted');
+            localStorage.setItem('cookie_consent_date', new Date().toISOString());
+            document.getElementById('cookie-banner').style.display = 'none';
+            // Enable full AdSense personalisation
+            if (window.adsbygoogle) {
+                try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+            }
+        }
+
+        function rejectCookies() {
+            localStorage.setItem('cookie_consent', 'rejected');
+            localStorage.setItem('cookie_consent_date', new Date().toISOString());
+            document.getElementById('cookie-banner').style.display = 'none';
         }
     </script>
 </body>
