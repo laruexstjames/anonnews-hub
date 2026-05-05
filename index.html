@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AnonNews Hub - Live News & Interactive Entertainment</title>
+    <!-- Google AdSense Auto Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9732868041262758" crossorigin="anonymous"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-9732868041262758",
+            enable_page_level_ads: true
+        });
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
@@ -1181,7 +1189,20 @@
                 return;
             }
 
-            container.innerHTML = filtered.map((item, index) => `
+            const adUnit = `
+                <div class="adsense-in-article my-4 text-center" style="min-height:90px;">
+                    <ins class="adsbygoogle"
+                        style="display:block;text-align:center;"
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-9732868041262758"
+                        data-ad-slot="auto">
+                    </ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});<\/script>
+                </div>
+            `;
+
+            const articleHTML = filtered.map((item, index) => `
                 <article class="glass rounded-xl overflow-hidden card-hover border border-white/5 animate-slide-up" style="animation-delay: ${index * 0.05}s">
                     <div class="relative h-48 overflow-hidden">
                         <img src="${item.image}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110" onerror="this.src='${getCategoryImage(item.category, index)}'">
@@ -1234,7 +1255,24 @@
                         </div>
                     </div>
                 </article>
-            `).join('');
+            `);
+
+            // Inject in-article ads every 3 articles
+            let finalHTML = '';
+            articleHTML.forEach((html, index) => {
+                finalHTML += html;
+                if ((index + 1) % 3 === 0 && index !== articleHTML.length - 1) {
+                    finalHTML += adUnit;
+                }
+            });
+            container.innerHTML = finalHTML;
+
+            // Initialize all newly injected AdSense units
+            document.querySelectorAll('.adsense-in-article ins.adsbygoogle').forEach(ins => {
+                if (!ins.getAttribute('data-adsbygoogle-status')) {
+                    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+                }
+            });
         }
 
         function filterNews(category) {
